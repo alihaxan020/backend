@@ -11,6 +11,9 @@ const {
   userSignIn,
   signOut,
   uploadProfile,
+  updatePassword,
+  updateProfile,
+  forgetPassword,
 } = require("../controllers/user");
 const { isAuth } = require("../middlewares/auth");
 const User = require("../models/User");
@@ -111,5 +114,7 @@ router.post("/getuserscores", isAuth, async (req, res) => {
     return res.status(400).json({ success: false, error: e });
   }
 });
-
+router.post("/updatepassword", isAuth, updatePassword);
+router.post("/updateprofile", isAuth, updateProfile);
+router.post("/forget-password", forgetPassword);
 module.exports = router;

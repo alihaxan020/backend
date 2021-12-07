@@ -1,6 +1,10 @@
 const User = require("../models/User");
-const sharp = require("sharp");
 const cloudinary = require("../helper/ImageUpload");
+const {
+  generateOTP,
+  resetPasswordTemplate,
+  mailTransport,
+} = require("../utils/mail");
 exports.createUser = async (req, res) => {
   const { name, age, gender, email, password } = req.body;
   const isNewUser = await User.isThisEmailInUse(email);
@@ -75,6 +79,81 @@ exports.uploadProfile = async (req, res, next) => {
     res.status(500).json({
       success: false,
       message: "sever error try after some time",
+    });
+  }
+};
+
+exports.updatePassword = async (req, res, next) => {
+  const { newPassword } = req.body;
+  const { user } = req;
+  try {
+    user.password = newPassword;
+    await user.save();
+    res.status(201).json({
+      success: true,
+      message: "Your password has been updated",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+exports.updateProfile = async (req, res) => {
+  const { gender, name, age } = req.body;
+  const { user } = req;
+  try {
+    await User.findByIdAndUpdate(user._id, {
+      name: name,
+      gender: gender,
+      age: age,
+    });
+    res.status(201).json({
+      success: true,
+      message: "Your profile has been updated successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+exports.forgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.json({
+        success: false,
+        message: "User is not found with given email.",
+      });
+    const otp = generateOTP();
+    console.log(otp);
+    mailTransport()
+      .sendMail({
+        from: "letsworksalihassan@gmail.com",
+        to: "alihassan4651@gmail.com",
+        subject: "Reset password OTP",
+        html: resetPasswordTemplate(otp),
+      })
+      .then(
+        res.status(201).json({
+          success: true,
+          message: "check your email for OTP",
+          otp: otp,
+        })
+      )
+      .catch(console.catch);
+    console.log(otp);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
     });
   }
 };
