@@ -5,7 +5,7 @@ require("./src/models/db");
 const adminRouter = require("./src/routes/admin");
 const userRouter = require("./src/routes/user");
 const app = express();
-let port = process.env.PORT || 3001;
+let port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(adminRouter);
