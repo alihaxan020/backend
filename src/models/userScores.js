@@ -16,6 +16,10 @@ var userScoresSchema = new mongoose.Schema(
     test: {
       type: String,
     },
+    attempt: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
