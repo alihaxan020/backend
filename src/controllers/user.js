@@ -136,7 +136,7 @@ exports.forgetPassword = async (req, res, next) => {
     mailTransport()
       .sendMail({
         from: "letsworksalihassan@gmail.com",
-        to: "alihassan4651@gmail.com",
+        to: email,
         subject: "Reset password OTP",
         html: resetPasswordTemplate(otp),
       })
