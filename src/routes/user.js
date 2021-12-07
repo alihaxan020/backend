@@ -75,7 +75,7 @@ router.post("/userscores", isAuth, async (req, res) => {
   }
 });
 
-router.post("/getuserscores", isAuth, async (req, res) => {
+router.post("/postuserscores", isAuth, async (req, res) => {
   const { test } = req.body;
   try {
     const testTotal = await UserScores.where("userId")
