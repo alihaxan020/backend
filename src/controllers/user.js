@@ -132,7 +132,12 @@ exports.forgetPassword = async (req, res, next) => {
         message: "User is not found with given email.",
       });
     const otp = generateOTP();
-    console.log(otp);
+    const jwt = require("jsonwebtoken");
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    const data = {
+      otp: otp,
+      token: token,
+    };
     mailTransport()
       .sendMail({
         from: "letsworksalihassan@gmail.com",
@@ -144,11 +149,10 @@ exports.forgetPassword = async (req, res, next) => {
         res.status(201).json({
           success: true,
           message: "check your email for OTP",
-          otp: otp,
+          otp: data,
         })
       )
       .catch(console.catch);
-    console.log(otp);
   } catch (error) {
     console.log(error);
     res.status(500).json({
