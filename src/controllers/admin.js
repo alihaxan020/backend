@@ -25,23 +25,23 @@ exports.getRating = async (req, res) => {
     const ratingZero = await RateUs.find({})
       .where(test)
       .equals(0)
-      .countDocuments();
+      .estimatedDocumentCount();
     const ratingOne = await RateUs.find({})
       .where(test)
       .equals(1)
-      .countDocuments();
+      .estimatedDocumentCount();
     const ratingTwo = await RateUs.find({})
       .where(test)
       .equals(2)
-      .countDocuments();
+      .estimatedDocumentCount();
     const ratingThree = await RateUs.find({})
       .where(test)
       .equals(3)
-      .countDocuments();
+      .estimatedDocumentCount();
     const ratingFour = await RateUs.find({})
       .where(test)
       .equals(4)
-      .countDocuments();
+      .estimatedDocumentCount();
     const ratingFive = await RateUs.find({})
       .where(test)
       .equals(5)
