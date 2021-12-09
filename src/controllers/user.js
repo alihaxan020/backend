@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const ContactUs = require("../models/ContactUs");
 const cloudinary = require("../helper/ImageUpload");
 const {
   generateOTP,
@@ -82,25 +83,6 @@ exports.uploadProfile = async (req, res, next) => {
     });
   }
 };
-
-exports.updatePassword = async (req, res, next) => {
-  const { newPassword } = req.body;
-  const { user } = req;
-  try {
-    user.password = newPassword;
-    await user.save();
-    res.status(201).json({
-      success: true,
-      message: "Your password has been updated",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-    });
-  }
-};
 exports.updateProfile = async (req, res) => {
   const { gender, name, age } = req.body;
   const { user } = req;
@@ -113,6 +95,24 @@ exports.updateProfile = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Your profile has been updated successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+exports.updatePassword = async (req, res, next) => {
+  const { newPassword } = req.body;
+  const { user } = req;
+  try {
+    user.password = newPassword;
+    await user.save();
+    res.status(201).json({
+      success: true,
+      message: "Your password has been updated",
     });
   } catch (error) {
     console.log(error);
@@ -155,6 +155,30 @@ exports.forgetPassword = async (req, res, next) => {
       .catch(console.catch);
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.contactUsForm = async (req, res) => {
+  const { title, description } = req.body;
+  try {
+    const contactus = new ContactUs({
+      title: title,
+      description: description,
+      name: req.user.name,
+      age: req.user.age,
+      gender: req.user.gender,
+    });
+    const saved = await contactus.save();
+    return res.status(200).json({
+      success: true,
+      data: saved,
+    });
+  } catch (e) {
+    console.log(e);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",

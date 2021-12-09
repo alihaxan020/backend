@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
-var rateUsSchema = new mongoose.Schema(
+var contactUsSchema = new mongoose.Schema(
   {
-    dyslexia: {
+    title: {
       type: String,
     },
-    selfassessment: {
-      type: String,
-    },
-    app: {
+    description: {
       type: String,
     },
     name: {
@@ -16,8 +13,11 @@ var rateUsSchema = new mongoose.Schema(
     age: {
       type: String,
     },
+    gender: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("RateUs", rateUsSchema);
+module.exports = mongoose.model("ContactUs", contactUsSchema);

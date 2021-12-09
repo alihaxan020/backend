@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const VerbalTest = require("../models/verbalTest");
-
 router.get("/getusers", async (req, res) => {
   try {
     const users = await User.find({});
