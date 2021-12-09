@@ -4,13 +4,14 @@ var cors = require("cors");
 require("./src/models/db");
 const adminRouter = require("./src/routes/admin");
 const userRouter = require("./src/routes/user");
+const rateUsRouter = require("./src/routes/rating");
 const app = express();
 let port = process.env.PORT || 3002;
 app.use(cors());
 app.use(express.json());
 app.use(adminRouter);
 app.use(userRouter);
-
+app.use(rateUsRouter);
 app.get("/", (req, res) => {
   res.send("<h1>Ali Hassan (FA17-BCS-020)</h1>");
 });
