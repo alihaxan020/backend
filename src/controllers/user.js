@@ -75,6 +75,7 @@ exports.uploadProfile = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "Your profile has been updated",
+      image: result.secure_url,
     });
   } catch (error) {
     res.status(500).json({
