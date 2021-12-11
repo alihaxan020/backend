@@ -172,7 +172,7 @@ exports.contactUsForm = async (req, res) => {
       name: req.user.name,
       age: req.user.age,
       gender: req.user.gender,
-      userId: req.user.id,
+      userId: req.user._id,
     });
     const saved = await contactus.save();
     return res.status(200).json({
