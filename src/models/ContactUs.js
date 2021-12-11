@@ -16,6 +16,9 @@ var contactUsSchema = new mongoose.Schema(
     gender: {
       type: String,
     },
+    userId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
