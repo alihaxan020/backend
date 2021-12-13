@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const WrittenTest = require("../models/writtenTest");
 const VerbalTest = require("../models/verbalTest");
+const SelfAssessmentTest = require("../models/selfAssessmentTest");
 router.get("/getusers", async (req, res) => {
   try {
     const users = await User.find({});
@@ -89,5 +90,34 @@ router.post("/getwrittentest", async (req, res) => {
     return res.status(400).json({ success: false, error: e });
   }
 });
-
+router.post("/save-selfassessment", async (req, res) => {
+  try {
+    const resAssessment = new SelfAssessmentTest({
+      test: req.body.test,
+    });
+    const saved = await resAssessment.save();
+    res.status(200).json({
+      success: true,
+      data: saved,
+    });
+  } catch (e) {
+    return res.status(400).json({
+      message: "server error",
+      error: e,
+    });
+  }
+});
+router.get("/getselfassessment", async (req, res) => {
+  try {
+    const test = await SelfAssessmentTest.find()
+      .sort({ $natural: -1 })
+      .limit(1);
+    return res.status(200).json({
+      success: true,
+      data: test,
+    });
+  } catch (e) {
+    return res.status(400).json({ success: false, error: e });
+  }
+});
 module.exports = router;
