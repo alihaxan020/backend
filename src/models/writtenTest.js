@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-var verbalTestSchema = new mongoose.Schema(
+var writtentestSchema = new mongoose.Schema(
   {
     test: {
       type: String,
@@ -14,4 +14,4 @@ var verbalTestSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("VerbalTest", verbalTestSchema);
+module.exports = mongoose.model("WrittenTest", writtentestSchema);

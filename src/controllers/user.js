@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const ContactUs = require("../models/ContactUs");
+const SelfAssessment = require("../models/SelfAssessment");
 const cloudinary = require("../helper/ImageUpload");
 const {
   generateOTP,
@@ -175,6 +176,31 @@ exports.contactUsForm = async (req, res) => {
       userId: req.user._id,
     });
     const saved = await contactus.save();
+    return res.status(200).json({
+      success: true,
+      data: saved,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.selfAssessment = async (req, res) => {
+  const { userForm, severity } = req.body;
+  console.log("hello");
+  try {
+    const userAssessment = new SelfAssessment({
+      name: req.user.name,
+      gender: req.user.gender,
+      severity: severity,
+      userAssessment: userForm,
+    });
+
+    const saved = await userAssessment.save();
     return res.status(200).json({
       success: true,
       data: saved,

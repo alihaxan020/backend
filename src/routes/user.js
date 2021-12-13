@@ -15,6 +15,7 @@ const {
   updateProfile,
   forgetPassword,
   contactUsForm,
+  selfAssessment,
 } = require("../controllers/user");
 const { isAuth } = require("../middlewares/auth");
 const User = require("../models/User");
@@ -119,5 +120,6 @@ router.post("/updatepassword", isAuth, updatePassword);
 router.post("/updateprofile", isAuth, updateProfile);
 router.post("/forget-password", forgetPassword);
 router.post("/contactus", isAuth, contactUsForm);
+router.post("/selfassessment", isAuth, selfAssessment);
 
 module.exports = router;
